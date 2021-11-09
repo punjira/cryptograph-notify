@@ -1,9 +1,11 @@
 import { Message } from 'node-nats-streaming';
 import { natsClient } from './nats-helper';
 
-const PRICE_UPDATE_EVENT = '';
-const CANDLE_UPDATE_EVENT = '';
-const FEED_UPDATE_EVENT = '';
+import { Emitter } from '../socket/socket';
+
+const PRICE_UPDATE_EVENT = 'PRICE_UPDATE_EVENT';
+const CANDLE_UPDATE_EVENT = 'NEW_CANDLESTICK_UPDATE_EVENT';
+const FEED_UPDATE_EVENT = 'things';
 
 export function createSubscriptions() {
      const client = natsClient.getInstance().getClient();
@@ -16,6 +18,7 @@ export function createSubscriptions() {
                if (typeof msg === 'string') {
                     try {
                          const parsed = JSON.parse(msg);
+                         Emitter('price_update', parsed);
                     } catch (err: any) {}
                }
           });
