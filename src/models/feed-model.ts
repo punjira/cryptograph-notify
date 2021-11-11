@@ -9,9 +9,15 @@ export interface Feed {
      farsi_test: string;
      date: number;
      type: FeedType;
-     signal: mongoose.Schema.Types.ObjectId;
+     signal: string;
      name: string;
      access_level?: string;
+     coin?: {
+          name: string;
+          image: string;
+          ticker: string;
+     };
+     interval?: string;
 }
 
 const FeedSchema = new mongoose.Schema<Feed>({
@@ -25,8 +31,7 @@ const FeedSchema = new mongoose.Schema<Feed>({
      },
      signal: {
           required: true,
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'signal',
+          type: String,
      },
      name: {
           required: true,
@@ -46,6 +51,18 @@ const FeedSchema = new mongoose.Schema<Feed>({
           type: String,
           required: false,
           default: 'user',
+     },
+     coin: {
+          type: {
+               name: String,
+               ticker: String,
+               image: String,
+          },
+          required: false,
+     },
+     interval: {
+          required: false,
+          type: String,
      },
 });
 
